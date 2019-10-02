@@ -7,7 +7,7 @@ namespace DotnetBoilerplate.Data.Core
     {
         public static void AddDataContext(this IServiceCollection services, DataProviderType type, string connectionString)
         {
-            services.AddDbContextPool<AppDbContext>(options =>
+            services.AddDbContextPool<DataContextBase>(options =>
             {
                 //SqlServer
                 if (type == DataProviderType.SqlServer)

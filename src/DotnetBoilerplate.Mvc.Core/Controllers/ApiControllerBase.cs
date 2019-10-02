@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetBoilerplate.Mvc.Core.Controllers
 {
-    class ApiControllerBase
+    [ApiController]
+    public abstract class ApiControllerBase : ControllerBase
     {
     }
 }

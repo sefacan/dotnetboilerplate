@@ -11,7 +11,7 @@ namespace DotnetBoilerplate.Data.Core
     {
         #region Fields
 
-        private readonly AppDbContext _context;
+        private readonly DataContextBase _context;
 
         private DbSet<TEntity> _entities;
 
@@ -19,7 +19,7 @@ namespace DotnetBoilerplate.Data.Core
 
         #region Ctor
 
-        public Repository(AppDbContext context)
+        public Repository(DataContextBase context)
         {
             _context = context;
         }

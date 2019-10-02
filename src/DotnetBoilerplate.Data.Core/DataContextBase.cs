@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace DotnetBoilerplate.Data.Core
 {
-    public class AppDbContext : DbContext
+    public class DataContextBase : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+        public DataContextBase(DbContextOptions<DataContextBase> options)
             : base(options)
         {
             Database.AutoTransactionsEnabled = false;

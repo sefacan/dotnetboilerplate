@@ -54,8 +54,8 @@ namespace DotnetBoilerplate.Common
 
         public async Task SaveFile(string path, IFormFile file)
         {
-            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Write, 4096, true))
-                await file.CopyToAsync(stream);
+            using FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Write, 4096, true);
+            await file.CopyToAsync(stream);
         }
 
         public void DeleteFile(string path)
