@@ -1,33 +1,41 @@
-//using Microsoft.EntityFrameworkCore;
-//using Microsoft.EntityFrameworkCore.Design;
-//using Microsoft.Extensions.Configuration;
-//using System;
-//using System.IO;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
 
-//namespace DotnetBoilerplate.Data.Core
-//{
-//    public class DataContextFactory : IDesignTimeDbContextFactory<AppDbContext>
-//    {
-//        public AppDbContext CreateDbContext(string[] args)
-//        {
-//            string environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-//            var builder = new ConfigurationBuilder()
-//                .SetBasePath(Directory.GetCurrentDirectory())
-//                .AddJsonFile("appsettings.json")
-//                .AddJsonFile($"appsettings.{environmentName}.json", true)
-//                .AddEnvironmentVariables();
+namespace DotnetBoilerplate.Data.Core
+{
+    public class DataContextFactory : IDesignTimeDbContextFactory<DataContextBase>
+    {
+        public DataContextBase CreateDbContext(string[] args)
+        {
+            var builder = new HostBuilder();
+            builder.UseContentRoot(Directory.GetCurrentDirectory());
+            builder.ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                var env = hostingContext.HostingEnvironment;
 
-//            var config = builder.Build();
-//            var connectionString = config.GetConnectionString("Default");
-//            if (string.IsNullOrWhiteSpace(connectionString))
-//                throw new InvalidOperationException("Could not find a connection string named 'Default'.");
+                config.AddJsonFile("appsettings.json")
+                      .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                config.AddEnvironmentVariables();
+            });
 
-//            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-//            optionsBuilder.UseNpgsql(connectionString, sqlOptions => {
-//                sqlOptions.MigrationsHistoryTable("_MigrationsHistory");
-//            });
+            var host = builder.Build();
+            var config = (IConfiguration)host.Services.GetService(typeof(IConfiguration));
+            
+            var connectionString = config.GetConnectionString("Default");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new InvalidOperationException("Could not find a connection string named 'Default'.");
 
-//            return new AppDbContext(optionsBuilder.Options);
-//        }
-//    }
-//}
+            var optionsBuilder = new DbContextOptionsBuilder<DataContextBase>();
+            optionsBuilder.UseNpgsql(connectionString, sqlOptions =>
+            {
+                sqlOptions.MigrationsHistoryTable("_MigrationsHistory");
+            });
+
+            return new DataContextBase(optionsBuilder.Options);
+        }
+    }
+}

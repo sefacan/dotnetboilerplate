@@ -1,7 +1,7 @@
-using DotnetBoilerplate.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,8 +20,8 @@ namespace DotnetBoilerplate.Mvc.Core.Controllers
         [NonAction]
         protected void PrepareTempData(string type, string message)
         {
-            var httpContextAccessor = ServiceLocator.Context.GetService<IHttpContextAccessor>();
-            var tempData = ServiceLocator.Context.GetService<ITempDataDictionaryFactory>().GetTempData(httpContextAccessor.HttpContext);
+            var httpContextAccessor = HttpContext.RequestServices.GetService<IHttpContextAccessor>();
+            var tempData = HttpContext.RequestServices.GetService<ITempDataDictionaryFactory>().GetTempData(httpContextAccessor.HttpContext);
             string tempdataKey = $"Notifications.{type}";
 
             var messageList = tempData.ContainsKey(tempdataKey)
@@ -83,8 +83,8 @@ namespace DotnetBoilerplate.Mvc.Core.Controllers
         {
             if (logException)
             {
-                var logger = ServiceLocator.Context.GetService<ILogger>();
-                logger.LogError(exception, exception.Message);
+                var logger = HttpContext.RequestServices.GetService<ILogger>();
+                logger?.LogError(exception, exception.Message);
             }
 
             PrepareTempData("Error", exception.Message);
