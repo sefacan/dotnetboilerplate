@@ -5,6 +5,13 @@
     <Version>1.0.0</Version>
     <AssemblyName>DotnetBoilerplate.DependencyInjection</AssemblyName>
     <RootNamespace>DotnetBoilerplate.DependencyInjection</RootNamespace>
+    <Copyright>2019 dotnetanywhere.com</Copyright>
+    <RepositoryUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.DependencyInjection</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.DependencyInjection</PackageProjectUrl>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Sefa Can</Authors>
+    <Company>dotnetanywhere.com</Company>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />

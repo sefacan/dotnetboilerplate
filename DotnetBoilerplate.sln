@@ -3,19 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D0D47729-C07A-43A6-961B-D01A91ACA8E5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Caching", "src\DotnetBoilerplate.Caching\DotnetBoilerplate.Caching.csproj", "{ABC245A6-D844-4674-8AFC-1A5EDC53CBFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Data.Core", "src\DotnetBoilerplate.Data.Core\DotnetBoilerplate.Data.Core.csproj", "{EA871830-867F-45FA-AF3C-4434BB8CBD58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBoilerplate.DependencyInjection", "src\DotnetBoilerplate.DependencyInjection\DotnetBoilerplate.DependencyInjection.csproj", "{580433D2-A46F-4686-B19A-0D9D7D96EC73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.DependencyInjection", "src\DotnetBoilerplate.DependencyInjection\DotnetBoilerplate.DependencyInjection.csproj", "{580433D2-A46F-4686-B19A-0D9D7D96EC73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBoilerplate.Helpers", "src\DotnetBoilerplate.Helpers\DotnetBoilerplate.Helpers.csproj", "{7AD7F41B-4329-4BCE-9E04-3FBF320B263D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Helpers", "src\DotnetBoilerplate.Helpers\DotnetBoilerplate.Helpers.csproj", "{7AD7F41B-4329-4BCE-9E04-3FBF320B263D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBoilerplate.Common", "src\DotnetBoilerplate.Common\DotnetBoilerplate.Common.csproj", "{1115C279-5967-4F5F-9905-B068CEDB3702}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Common", "src\DotnetBoilerplate.Common\DotnetBoilerplate.Common.csproj", "{1115C279-5967-4F5F-9905-B068CEDB3702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetBoilerplate.Mvc.Core", "src\DotnetBoilerplate.Mvc.Core\DotnetBoilerplate.Mvc.Core.csproj", "{96E22190-83F0-460B-8FF9-1CB142D1DAE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Mvc.Core", "src\DotnetBoilerplate.Mvc.Core\DotnetBoilerplate.Mvc.Core.csproj", "{96E22190-83F0-460B-8FF9-1CB142D1DAE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,14 +100,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{ABC245A6-D844-4674-8AFC-1A5EDC53CBFC} = {D0D47729-C07A-43A6-961B-D01A91ACA8E5}
-		{EA871830-867F-45FA-AF3C-4434BB8CBD58} = {D0D47729-C07A-43A6-961B-D01A91ACA8E5}
-		{580433D2-A46F-4686-B19A-0D9D7D96EC73} = {D0D47729-C07A-43A6-961B-D01A91ACA8E5}
-		{7AD7F41B-4329-4BCE-9E04-3FBF320B263D} = {D0D47729-C07A-43A6-961B-D01A91ACA8E5}
-		{1115C279-5967-4F5F-9905-B068CEDB3702} = {D0D47729-C07A-43A6-961B-D01A91ACA8E5}
-		{96E22190-83F0-460B-8FF9-1CB142D1DAE1} = {D0D47729-C07A-43A6-961B-D01A91ACA8E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7736E3C9-F287-49C4-BED6-D52ABB6B479F}

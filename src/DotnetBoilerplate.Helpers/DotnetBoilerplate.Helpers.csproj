@@ -1,10 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Description>Common Helper Package For .Net Core Apps</Description>
     <Version>1.0.0</Version>
     <AssemblyName>DotnetBoilerplate.Helpers</AssemblyName>
     <RootNamespace>DotnetBoilerplate.Helpers</RootNamespace>
+    <Copyright>2019 dotnetanywhere.com</Copyright>
+    <RepositoryUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Helpers</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Helpers</PackageProjectUrl>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Sefa Can</Authors>
+    <Company>dotnetanywhere.com</Company>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.6.0" />
