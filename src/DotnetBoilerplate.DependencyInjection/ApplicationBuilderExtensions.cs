@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Builder;
+using DotnetBoilerplate.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DotnetBoilerplate.DependencyInjection
+namespace Microsoft.AspNetCore.Builder
 {
     public static class ApplicationBuilderExtensions
     {

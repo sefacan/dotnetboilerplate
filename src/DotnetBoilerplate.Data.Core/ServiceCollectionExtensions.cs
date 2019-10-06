@@ -1,7 +1,8 @@
+using DotnetBoilerplate.Data.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace DotnetBoilerplate.Data.Core
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
@@ -32,7 +33,7 @@ namespace DotnetBoilerplate.Data.Core
 
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.TryAddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
     }
 }

@@ -1,17 +1,18 @@
+using DotnetBoilerplate.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Scrutor;
+using System;
+using System.Reflection;
 
-namespace DotnetBoilerplate.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAdvancedDependencyInjection(this IServiceCollection services)
+        public static IServiceCollection AddAdvancedDependencyInjection(this IServiceCollection services, Func<Assembly, bool> predicate)
         {
-            string assemblyStartsName = typeof(ServiceCollectionExtensions).Assembly.GetName().Name.Split('.')[0];
             services.Scan(scan => scan
-            .FromApplicationDependencies(asm => asm.FullName.StartsWith(assemblyStartsName))
+            .FromApplicationDependencies(predicate)
 
             //singleton
             .AddClasses(classes => classes.AssignableTo<ISingletonLifetime>(), true)
