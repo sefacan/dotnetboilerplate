@@ -2,14 +2,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Description>EntityFramework Core Helper Package For .Net Core Apps</Description>
-    <Version>1.0.1</Version>
+    <Version>1.1.1</Version>
     <AssemblyName>DotnetBoilerplate.Data.Core</AssemblyName>
     <RootNamespace>DotnetBoilerplate.Data.Core</RootNamespace>
     <Copyright>2019 dotnetanywhere.com</Copyright>
     <RepositoryUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Data.Core</RepositoryUrl>
     <PackageProjectUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Data.Core</PackageProjectUrl>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.1.0.1</AssemblyVersion>
     <Authors>Sefa Can</Authors>
     <Company>dotnetanywhere.com</Company>
   </PropertyGroup>
@@ -19,6 +19,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.6-rc1-final" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.0.0-rc1.final" />
   </ItemGroup>
 </Project>
