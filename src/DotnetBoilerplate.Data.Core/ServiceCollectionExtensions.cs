@@ -35,6 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }, poolSize);
 
             //register repository
+            services.TryAddScoped(typeof(DbContext), typeof(TContext));
             services.TryAddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
