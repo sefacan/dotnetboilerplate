@@ -10,27 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddDbContextPool<TContext>(options =>
             {
-                switch (type)
-                {
-                    //InMemory
-                    case DataProviderType.InMemory:
-                    options.UseInMemoryDatabase("InMemory");
-                    break;
-                    //SqlServer
-                    case DataProviderType.SqlServer:
-                    options.UseSqlServer(connectionString);
-                    break;
-                    //MySql & MariaDB
-                    case DataProviderType.MySql:
-                    case DataProviderType.MariaDB:
-                    options.UseMySql(connectionString);
-                    break;
-                    //PostgreSql
-                    case DataProviderType.PostgreSql:
-                    options.UseNpgsql(connectionString);
-                    break;
-                }
-
+                options.SetDatabaseByType(type, connectionString);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }, poolSize);
 
@@ -43,32 +23,37 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddDbContext<TContext>(options =>
             {
-                switch (type)
-                {
-                    //InMemory
-                    case DataProviderType.InMemory:
-                    options.UseInMemoryDatabase("InMemory");
-                    break;
-                    //SqlServer
-                    case DataProviderType.SqlServer:
-                    options.UseSqlServer(connectionString);
-                    break;
-                    //MySql & MariaDB
-                    case DataProviderType.MySql:
-                    case DataProviderType.MariaDB:
-                    options.UseMySql(connectionString);
-                    break;
-                    //PostgreSql
-                    case DataProviderType.PostgreSql:
-                    options.UseNpgsql(connectionString);
-                    break;
-                }
-
+                options.SetDatabaseByType(type, connectionString);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             //register repository
+            services.TryAddScoped(typeof(DbContext), typeof(TContext));
             services.TryAddScoped(typeof(IRepository<>), typeof(Repository<>));
+        }
+
+        private static void SetDatabaseByType(this DbContextOptionsBuilder options, DataProviderType type, string connectionString)
+        {
+            switch (type)
+            {
+                //InMemory
+                case DataProviderType.InMemory:
+                options.UseInMemoryDatabase("InMemory");
+                break;
+                //SqlServer
+                case DataProviderType.SqlServer:
+                options.UseSqlServer(connectionString);
+                break;
+                //MySql & MariaDB
+                case DataProviderType.MySql:
+                case DataProviderType.MariaDB:
+                options.UseMySql(connectionString);
+                break;
+                //PostgreSql
+                case DataProviderType.PostgreSql:
+                options.UseNpgsql(connectionString);
+                break;
+            }
         }
     }
 }
