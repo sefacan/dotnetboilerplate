@@ -8,7 +8,7 @@ using System.Net;
 
 namespace DotnetBoilerplate.Common
 {
-    public class WebHelper : ISelfScopedLifetime
+    public class WebHelper : IWebHelper, IScopedLifetime
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

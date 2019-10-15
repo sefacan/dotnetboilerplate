@@ -57,7 +57,7 @@ namespace DotnetBoilerplate.Common
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <param name="totalCount">Total count</param>
-        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize, int totalCount)
+        public PagedList(IQueryable<T> source, int pageIndex, int pageSize, int totalCount)
         {
             TotalCount = totalCount;
             TotalPages = TotalCount / pageSize;
@@ -67,7 +67,7 @@ namespace DotnetBoilerplate.Common
 
             PageSize = pageSize;
             PageIndex = pageIndex;
-            AddRange(source);
+            AddRange(source.Skip(pageIndex * pageSize).Take(pageSize).ToList());
         }
 
         /// <summary>

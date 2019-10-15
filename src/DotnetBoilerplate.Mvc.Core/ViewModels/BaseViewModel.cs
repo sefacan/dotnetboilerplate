@@ -4,12 +4,8 @@ namespace DotnetBoilerplate.Mvc.Core.ViewModels
     {
     }
 
-    public abstract class BaseEntityViewModel : BaseEntityViewModel<int>
+    public abstract class BaseEntityViewModel : BaseViewModel
     {
-    }
-
-    public abstract class BaseEntityViewModel<TId>
-    {
-        public virtual TId Id { get; set; }
+        public virtual int Id { get; set; }
     }
 }

@@ -1,6 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Description>Mvc Helper Package For .Net Core Apps</Description>
+    <Version>1.1.2</Version>
+    <AssemblyName>DotnetBoilerplate.Mvc.Core</AssemblyName>
+    <RootNamespace>DotnetBoilerplate.Mvc.Core</RootNamespace>
+    <Copyright>2019 dotnetanywhere.com</Copyright>
+    <RepositoryUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Mvc.Core</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Mvc.Core</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.1.0.2</AssemblyVersion>
+    <Authors>Sefa Can</Authors>
+    <Company>dotnetanywhere.com</Company>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

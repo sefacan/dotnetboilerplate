@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D0D47729-C07A-43A6-961B-D01A91ACA8E5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Caching", "src\DotnetBoilerplate.Caching\DotnetBoilerplate.Caching.csproj", "{ABC245A6-D844-4674-8AFC-1A5EDC53CBFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Data.Core", "src\DotnetBoilerplate.Data.Core\DotnetBoilerplate.Data.Core.csproj", "{EA871830-867F-45FA-AF3C-4434BB8CBD58}"
