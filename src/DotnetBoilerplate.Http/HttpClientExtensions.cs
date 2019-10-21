@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DotnetBoilerplate.Helpers
+namespace DotnetBoilerplate.Http
 {
     public static class HttpClientExtensions
     {
@@ -33,11 +33,36 @@ namespace DotnetBoilerplate.Helpers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
+        public static async Task<HttpResponseMessage> PostJsonAsync(this HttpClient client, string requestUri, object data)
+        {
+            return await client.PostAsync(requestUri, new JsonContent(data));
+        }
+
+        public static async Task<HttpResponseMessage> PutJsonAsync(this HttpClient client, string requestUri, object data)
+        {
+            return await client.PutAsync(requestUri, new JsonContent(data));
+        }
+
+        public static async Task<HttpResponseMessage> PatchJsonAsync(this HttpClient client, string requestUri, object data)
+        {
+            return await client.PatchAsync(requestUri, new JsonContent(data));
+        }
+
+        public static async Task<TContent> GetAsync<TContent>(this HttpClient client, string requestUri)
+        {
+            var responseMessage = await client.GetAsync(requestUri);
+            if (responseMessage.IsSuccessStatusCode)
+                return await responseMessage.DeserializeAsync<TContent>();
+
+            return default;
+        }
+
         public static async Task<TContent> DeserializeAsync<TContent>(this HttpResponseMessage response)
         {
             var contentStream = await response.Content.ReadAsStreamAsync();
-            var content = await JsonSerializer.DeserializeAsync(contentStream, typeof(TContent));
-            return (TContent)content;
+            var content = await JsonSerializer.DeserializeAsync<TContent>(contentStream);
+
+            return content;
         }
     }
 

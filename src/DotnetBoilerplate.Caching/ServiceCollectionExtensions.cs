@@ -1,7 +1,4 @@
 using DotnetBoilerplate.Caching;
-using EasyCaching.Core;
-using EasyCaching.InMemory;
-using EasyCaching.Redis;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection

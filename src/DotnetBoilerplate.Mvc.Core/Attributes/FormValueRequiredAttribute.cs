@@ -105,6 +105,48 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
                             }
                         }
                         break;
+                        case FormValueRequirement.EndsWith:
+                        {
+                            if (_validateNameOnly)
+                            {
+                                //"name" only
+                                if (routeContext.HttpContext.Request.Form.Keys.Any(x => x.EndsWith(buttonName, StringComparison.InvariantCultureIgnoreCase)))
+                                    return true;
+                            }
+                            else
+                            {
+                                //validate "value"
+                                foreach (var formValue in routeContext.HttpContext.Request.Form.Keys)
+                                    if (formValue.EndsWith(buttonName, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        var value = routeContext.HttpContext.Request.Form[formValue];
+                                        if (!string.IsNullOrEmpty(value))
+                                            return true;
+                                    }
+                            }
+                        }
+                        break;
+                        case FormValueRequirement.Contains:
+                        {
+                            if (_validateNameOnly)
+                            {
+                                //"name" only
+                                if (routeContext.HttpContext.Request.Form.Keys.Any(x => x.Contains(buttonName, StringComparison.InvariantCultureIgnoreCase)))
+                                    return true;
+                            }
+                            else
+                            {
+                                //validate "value"
+                                foreach (var formValue in routeContext.HttpContext.Request.Form.Keys)
+                                    if (formValue.Contains(buttonName, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        var value = routeContext.HttpContext.Request.Form[formValue];
+                                        if (!string.IsNullOrEmpty(value))
+                                            return true;
+                                    }
+                            }
+                        }
+                        break;
                     }
                 }
                 catch (Exception exc)
@@ -113,6 +155,7 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
                     Debug.WriteLine(exc.Message);
                 }
             }
+
             return false;
         }
     }
@@ -129,6 +172,14 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
         /// <summary>
         /// Starts with
         /// </summary>
-        StartsWith
+        StartsWith,
+        /// <summary>
+        /// Ends with
+        /// </summary>
+        EndsWith,
+        /// <summary>
+        /// Contains
+        /// </summary>
+        Contains
     }
 }
