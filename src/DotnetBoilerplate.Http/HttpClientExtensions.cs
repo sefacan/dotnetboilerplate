@@ -9,6 +9,61 @@ namespace DotnetBoilerplate.Http
 {
     public static class HttpClientExtensions
     {
+        public static async Task<TContent> GetAsync<TContent>(this HttpClient client, string requestUri)
+        {
+            var responseMessage = await client.GetAsync(requestUri);
+            if (responseMessage.IsSuccessStatusCode)
+                return await responseMessage.ReadJsonAsync<TContent>();
+
+            return default;
+        }
+
+        public static async Task<HttpResponseMessage> PostJsonAsync(this HttpClient client, string requestUri, object data)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
+            {
+                Content = CreateContent(data)
+            };
+
+            return await client.SendAsync(request).ConfigureAwait(true);
+        }
+
+        public static async Task<HttpResponseMessage> PutJsonAsync(this HttpClient client, string requestUri, object data)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Put, requestUri)
+            {
+                Content = CreateContent(data)
+            };
+
+            return await client.SendAsync(request).ConfigureAwait(true);
+        }
+
+        public static async Task<HttpResponseMessage> PatchJsonAsync(this HttpClient client, string requestUri, object data)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Patch, requestUri)
+            {
+                Content = CreateContent(data)
+            };
+
+            return await client.SendAsync(request).ConfigureAwait(true);
+        }
+
+        public static async Task<HttpResponseMessage> DeleteAsync<TContent>(this HttpClient client, string url)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+            return await client.SendAsync(request).ConfigureAwait(true);
+        }
+
+        public static async Task<HttpResponseMessage> DeleteAsync<TContent>(this HttpClient client, string url, object data)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, url)
+            {
+                Content = CreateContent(data)
+            };
+
+            return await client.SendAsync(request).ConfigureAwait(true);
+        }
+
         public static void AddHeaderValue(this HttpClient client, string name, string value)
         {
             client.DefaultRequestHeaders.Add(name, value);
@@ -33,49 +88,24 @@ namespace DotnetBoilerplate.Http
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
-        public static async Task<HttpResponseMessage> PostJsonAsync(this HttpClient client, string requestUri, object data)
+        public static async Task<TContent> ReadJsonAsync<TContent>(this HttpResponseMessage httpResponseMessage)
         {
-            return await client.PostAsync(requestUri, new JsonContent(data));
+            var content = httpResponseMessage.Content;
+            if (content == null)
+                return default;
+
+            var contentType = content.Headers.ContentType.MediaType;
+            if (!contentType.Contains("application/json"))
+                throw new HttpRequestException($"Content type \"{contentType}\" not supported");
+
+            var json = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            return await JsonSerializer.DeserializeAsync<TContent>(json).ConfigureAwait(true);
         }
 
-        public static async Task<HttpResponseMessage> PutJsonAsync(this HttpClient client, string requestUri, object data)
+        private static HttpContent CreateContent(object data)
         {
-            return await client.PutAsync(requestUri, new JsonContent(data));
-        }
-
-        public static async Task<HttpResponseMessage> PatchJsonAsync(this HttpClient client, string requestUri, object data)
-        {
-            return await client.PatchAsync(requestUri, new JsonContent(data));
-        }
-
-        public static async Task<TContent> GetAsync<TContent>(this HttpClient client, string requestUri)
-        {
-            var responseMessage = await client.GetAsync(requestUri);
-            if (responseMessage.IsSuccessStatusCode)
-                return await responseMessage.DeserializeAsync<TContent>();
-
-            return default;
-        }
-
-        public static async Task<TContent> DeserializeAsync<TContent>(this HttpResponseMessage response)
-        {
-            var contentStream = await response.Content.ReadAsStreamAsync();
-            var content = await JsonSerializer.DeserializeAsync<TContent>(contentStream);
-
-            return content;
-        }
-    }
-
-    public class JsonContent : StringContent
-    {
-        public JsonContent(object value)
-            : base(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json")
-        {
-        }
-
-        public JsonContent(object value, Encoding encoding)
-            : base(JsonSerializer.Serialize(value), encoding, "application/json")
-        {
+            var json = JsonSerializer.Serialize(data);
+            return new StringContent(json, Encoding.UTF8, "application/json");
         }
     }
 }
