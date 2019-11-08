@@ -6,10 +6,10 @@ namespace DotnetBoilerplate.Http
 {
     public static class HttpClientBuilderExtensions
     {
-        public static IHttpClientBuilder AddPolicyHandlers(this IHttpClientBuilder httpClientBuilder, string policySectionName, ILoggerFactory loggerFactory, IConfiguration configuration)
+        public static IHttpClientBuilder AddPolicyHandlers(this IHttpClientBuilder httpClientBuilder, string policySectionName, IConfiguration configuration)
         {
-            var retryLogger = loggerFactory.CreateLogger("PollyHttpRetryPoliciesLogger");
-            var circuitBreakerLogger = loggerFactory.CreateLogger("PollyHttpCircuitBreakerPoliciesLogger");
+            var serviceProvider = httpClientBuilder.Services.BuildServiceProvider();
+            var logger = serviceProvider.GetService<ILogger>();
 
             var policyConfig = new PolicyConfig();
             configuration.Bind(policySectionName, policyConfig);
@@ -17,8 +17,8 @@ namespace DotnetBoilerplate.Http
             var circuitBreakerPolicyConfig = (ICircuitBreakerPolicyConfig)policyConfig;
             var retryPolicyConfig = (IRetryPolicyConfig)policyConfig;
 
-            return httpClientBuilder.AddRetryPolicyHandler(retryLogger, retryPolicyConfig)
-                                    .AddCircuitBreakerHandler(circuitBreakerLogger, circuitBreakerPolicyConfig);
+            return httpClientBuilder.AddRetryPolicyHandler(logger, retryPolicyConfig)
+                                    .AddCircuitBreakerHandler(logger, circuitBreakerPolicyConfig);
         }
 
         public static IHttpClientBuilder AddRetryPolicyHandler(this IHttpClientBuilder httpClientBuilder, ILogger logger, IRetryPolicyConfig retryPolicyConfig)
