@@ -6,7 +6,7 @@ using System.Net.Http;
 
 namespace DotnetBoilerplate.Http
 {
-    public static class HttpRetryPolicies
+    public class HttpRetryPolicies
     {
         public static AsyncRetryPolicy<HttpResponseMessage> GetHttpRetryPolicy(ILogger logger, IRetryPolicyConfig retryPolicyConfig)
         {
