@@ -1,8 +1,8 @@
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DotnetBoilerplate.Http
@@ -98,13 +98,13 @@ namespace DotnetBoilerplate.Http
             if (!contentType.Contains("application/json"))
                 throw new HttpRequestException($"Content type \"{contentType}\" not supported");
 
-            var json = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            return await JsonSerializer.DeserializeAsync<TContent>(json).ConfigureAwait(true);
+            var json = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<TContent>(json);
         }
 
         private static HttpContent CreateContent(object data)
         {
-            var json = JsonSerializer.Serialize(data);
+            var json = JsonConvert.SerializeObject(data);
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
     }
