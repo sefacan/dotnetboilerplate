@@ -14,8 +14,8 @@
     <Company>dotnetanywhere.com</Company>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="EasyCaching.InMemory" Version="0.8.0" />
-    <PackageReference Include="EasyCaching.Redis" Version="0.8.0" />
-    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+    <PackageReference Include="EasyCaching.InMemory" Version="0.8.3" />
+    <PackageReference Include="EasyCaching.Redis" Version="0.8.2" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
   </ItemGroup>
 </Project>
