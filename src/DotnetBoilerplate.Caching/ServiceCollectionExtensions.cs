@@ -1,5 +1,9 @@
 using DotnetBoilerplate.Caching;
+using EasyCaching.Core.Configurations;
+using StackExchange.Redis;
 using System;
+using System.Linq;
+using System.Net;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -21,39 +25,28 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(connectionString), "Redis connection string can not empty.");
 
             //Example connection string: localhost:6379;PASSWORD;allowAdmin=true
-            string host = connectionString.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0];
-            if (string.IsNullOrWhiteSpace(host))
-                throw new ArgumentNullException(nameof(host), "Redis connection host info can not empty.");
-
-            string password = connectionString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)[1];
-            if (!int.TryParse(connectionString.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1], out int port))
-                throw new ArgumentException(nameof(host), "Invalid redis connection port.");
-
-            string allowAdminStr = connectionString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)[2];
-            bool.TryParse(allowAdminStr.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries)[1], out bool allowAdmin);
-            if (string.IsNullOrWhiteSpace(allowAdminStr))
-                allowAdmin = true;
-
-            string useSslStr = connectionString.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)[3];
-            bool.TryParse(useSslStr.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries)[1], out bool useSsl);
+            var configurationOptions = ConfigurationOptions.Parse(connectionString);
 
             services.AddEasyCaching(options =>
             {
                 //use memory cache that named default
                 options.UseRedis(config =>
                 {
-                    config.DBConfig.Endpoints.Add(new EasyCaching.Core.Configurations.ServerEndPoint(host, port));
+                    var dnsEndpoints = configurationOptions.EndPoints.Select(endpoint => endpoint as DnsEndPoint).ToList();
+                    for (int i = 0; i < dnsEndpoints.Count; i++)
+                        config.DBConfig.Endpoints.Add(new ServerEndPoint(dnsEndpoints[i].Host, dnsEndpoints[i].Port));
+
                     config.DBConfig.ConnectionTimeout = 5000;
-                    config.DBConfig.AllowAdmin = allowAdmin;
-                    config.DBConfig.IsSsl = useSsl;
+                    config.DBConfig.AllowAdmin = configurationOptions.AllowAdmin;
+                    config.DBConfig.IsSsl = configurationOptions.Ssl;
 
                     //set ssl host
-                    if (useSsl)
-                        config.DBConfig.SslHost = host;
+                    if (configurationOptions.Ssl)
+                        config.DBConfig.SslHost = configurationOptions.SslHost;
 
                     //set password
-                    if (!string.IsNullOrEmpty(password))
-                        config.DBConfig.Password = password;
+                    if (!string.IsNullOrEmpty(configurationOptions.Password))
+                        config.DBConfig.Password = configurationOptions.Password;
                 });
             });
             services.AddScoped<ICacheManager, DefaultCacheManager>();
