@@ -32,7 +32,7 @@ namespace DotnetBoilerplate.Helpers
         {
             return GetNames(value).Select(obj => GetDisplayValue(Parse(obj))).ToList();
         }
-        
+
         public static string GetDisplayValue(T value)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());

@@ -81,8 +81,8 @@ namespace DotnetBoilerplate.Helpers
         /// values to a hash table. Character codes are referenced
         /// by hex numbers because that's the most common way to
         /// refer to them.
-        /// 
-        /// Upper-case comments are identifiers from the Unicode database. 
+        ///
+        /// Upper-case comments are identifiers from the Unicode database.
         /// Lower- and mixed-case comments are the author's
         /// </summary>
         private static void InitializeSeoCharacterTable()
@@ -259,8 +259,8 @@ namespace DotnetBoilerplate.Helpers
                         { ToUnichar("012F"), "i" }, // LATIN SMALL LETTER I WITH OGONEK
                         { ToUnichar("0130"), "I" }, // LATIN CAPITAL LETTER I WITH DOT ABOVE
                         { ToUnichar("0131"), "i" }, // LATIN SMALL LETTER DOTLESS I -- no decomposition
-                        { ToUnichar("0132"), "I" }, // LATIN CAPITAL LIGATURE IJ    
-                        { ToUnichar("0133"), "i" }, // LATIN SMALL LIGATURE IJ      
+                        { ToUnichar("0132"), "I" }, // LATIN CAPITAL LIGATURE IJ
+                        { ToUnichar("0133"), "i" }, // LATIN SMALL LIGATURE IJ
                         { ToUnichar("0134"), "J" }, // LATIN CAPITAL LETTER J WITH CIRCUMFLEX
                         { ToUnichar("0135"), "j" }, // LATIN SMALL LETTER J WITH CIRCUMFLEX
                         { ToUnichar("0136"), "K" }, // LATIN CAPITAL LETTER K WITH CEDILLA
@@ -336,7 +336,7 @@ namespace DotnetBoilerplate.Helpers
                         { ToUnichar("017C"), "z" }, // LATIN SMALL LETTER Z WITH DOT ABOVE
                         { ToUnichar("017D"), "Z" }, // LATIN CAPITAL LETTER Z WITH CARON
                         { ToUnichar("017E"), "z" }, // LATIN SMALL LETTER Z WITH CARON
-                        { ToUnichar("017F"), "s" }, // LATIN SMALL LETTER LONG S    
+                        { ToUnichar("017F"), "s" }, // LATIN SMALL LETTER LONG S
                         { ToUnichar("0180"), "b" }, // LATIN SMALL LETTER B WITH STROKE -- no decomposition
                         { ToUnichar("0181"), "B" }, // LATIN CAPITAL LETTER B WITH HOOK -- no decomposition
                         { ToUnichar("0182"), "B" }, // LATIN CAPITAL LETTER B WITH TOPBAR -- no decomposition
@@ -1046,7 +1046,7 @@ namespace DotnetBoilerplate.Helpers
                         { ToUnichar("FF58"), "x" }, // FULLWIDTH LATIN SMALL LETTER X
                         { ToUnichar("FF59"), "y" }, // FULLWIDTH LATIN SMALL LETTER Y
                         { ToUnichar("FF5A"), "z" }, // FULLWIDTH LATIN SMALL LETTER Z
-                        { ToUnichar("0410"), "A" },  // RUSSIAN CAPITAL LETTER А 
+                        { ToUnichar("0410"), "A" },  // RUSSIAN CAPITAL LETTER А
                         { ToUnichar("0411"), "B" },  // RUSSIAN CAPITAL LETTER Б
                         { ToUnichar("0412"), "V" },  // RUSSIAN CAPITAL LETTER В
                         { ToUnichar("0413"), "G" },  // RUSSIAN CAPITAL LETTER Г
