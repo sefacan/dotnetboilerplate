@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Polly;
+using Polly.Extensions.Http;
 using Polly.Retry;
 using System;
 using System.Net.Http;
@@ -10,7 +11,7 @@ namespace DotnetBoilerplate.Http
     {
         public static AsyncRetryPolicy<HttpResponseMessage> GetHttpRetryPolicy(ILogger logger, IRetryPolicyConfig retryPolicyConfig)
         {
-            return HttpPolicyBuilders.GetBaseBuilder()
+            return HttpPolicyExtensions.HandleTransientHttpError()
                                           .WaitAndRetryAsync(retryPolicyConfig.RetryCount,
                                                              ComputeDuration,
                                                              (result, timeSpan, retryCount, context) =>

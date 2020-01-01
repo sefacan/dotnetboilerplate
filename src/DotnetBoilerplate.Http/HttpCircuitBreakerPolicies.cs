@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.CircuitBreaker;
+using Polly.Extensions.Http;
 using System;
 using System.Net.Http;
 
@@ -10,7 +11,7 @@ namespace DotnetBoilerplate.Http
     {
         public static AsyncCircuitBreakerPolicy<HttpResponseMessage> GetHttpCircuitBreakerPolicy(ILogger logger, ICircuitBreakerPolicyConfig circuitBreakerPolicyConfig)
         {
-            return HttpPolicyBuilders.GetBaseBuilder()
+            return HttpPolicyExtensions.HandleTransientHttpError()
                                       .CircuitBreakerAsync(circuitBreakerPolicyConfig.RetryCount + 1,
                                                            TimeSpan.FromSeconds(circuitBreakerPolicyConfig.BreakDuration),
                                                            (result, breakDuration) =>

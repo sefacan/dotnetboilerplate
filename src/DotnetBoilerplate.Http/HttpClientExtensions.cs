@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -25,7 +26,7 @@ namespace DotnetBoilerplate.Http
                 Content = CreateContent(data)
             };
 
-            return await client.SendAsync(request).ConfigureAwait(true);
+            return await client.SendAsync(request);
         }
 
         public static async Task<HttpResponseMessage> PutJsonAsync(this HttpClient client, string requestUri, object data)
@@ -35,7 +36,7 @@ namespace DotnetBoilerplate.Http
                 Content = CreateContent(data)
             };
 
-            return await client.SendAsync(request).ConfigureAwait(true);
+            return await client.SendAsync(request);
         }
 
         public static async Task<HttpResponseMessage> PatchJsonAsync(this HttpClient client, string requestUri, object data)
@@ -45,13 +46,13 @@ namespace DotnetBoilerplate.Http
                 Content = CreateContent(data)
             };
 
-            return await client.SendAsync(request).ConfigureAwait(true);
+            return await client.SendAsync(request);
         }
 
         public static async Task<HttpResponseMessage> DeleteAsync<TContent>(this HttpClient client, string url)
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, url);
-            return await client.SendAsync(request).ConfigureAwait(true);
+            return await client.SendAsync(request);
         }
 
         public static async Task<HttpResponseMessage> DeleteAsync<TContent>(this HttpClient client, string url, object data)
@@ -61,7 +62,7 @@ namespace DotnetBoilerplate.Http
                 Content = CreateContent(data)
             };
 
-            return await client.SendAsync(request).ConfigureAwait(true);
+            return await client.SendAsync(request);
         }
 
         public static void AddHeaderValue(this HttpClient client, string name, string value)
@@ -98,14 +99,24 @@ namespace DotnetBoilerplate.Http
             if (!contentType.Contains("application/json"))
                 throw new HttpRequestException($"Content type \"{contentType}\" not supported");
 
-            var json = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<TContent>(json);
+            var stream = await httpResponseMessage.Content.ReadAsStreamAsync();
+            return Deserialize<TContent>(stream);
         }
 
         private static HttpContent CreateContent(object data)
         {
             var json = JsonConvert.SerializeObject(data);
             return new StringContent(json, Encoding.UTF8, "application/json");
+        }
+
+        private static T Deserialize<T>(Stream s)
+        {
+            using (StreamReader reader = new StreamReader(s))
+            using (JsonTextReader jsonReader = new JsonTextReader(reader))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                return serializer.Deserialize<T>(jsonReader);
+            }
         }
     }
 }
