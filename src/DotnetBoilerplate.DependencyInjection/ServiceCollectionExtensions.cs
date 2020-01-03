@@ -9,13 +9,28 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddAdvancedDependencyInjection(this IServiceCollection services)
+        {
+            services.Scan(scan => scan
+            .FromDependencyContext(DependencyModel.DependencyContext.Default)
+            .AddClassesFromInterfaces());
+
+            return services.AddCommonServices();
+        }
+
         public static IServiceCollection AddAdvancedDependencyInjection(this IServiceCollection services, Func<Assembly, bool> predicate)
         {
             services.Scan(scan => scan
-            .FromApplicationDependencies(predicate)
+            .FromDependencyContext(DependencyModel.DependencyContext.Default, predicate)
+            .AddClassesFromInterfaces());
 
+            return services.AddCommonServices();
+        }
+
+        private static IImplementationTypeSelector AddClassesFromInterfaces(this IImplementationTypeSelector selector)
+        {
             //singleton
-            .AddClasses(classes => classes.AssignableTo<ISingletonLifetime>(), true)
+            selector.AddClasses(classes => classes.AssignableTo<ISingletonLifetime>(), true)
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsMatchingInterface()
             .WithSingletonLifetime()
@@ -45,8 +60,13 @@ namespace Microsoft.Extensions.DependencyInjection
             .AddClasses(classes => classes.AssignableTo<ISelfScopedLifetime>(), true)
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsSelf()
-            .WithScopedLifetime());
+            .WithScopedLifetime();
 
+            return selector;
+        }
+
+        private static IServiceCollection AddCommonServices(this IServiceCollection services)
+        {
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.TryAddSingleton<IDependencyContext, DependencyContext>();
