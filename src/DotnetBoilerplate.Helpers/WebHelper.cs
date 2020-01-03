@@ -96,6 +96,40 @@ namespace DotnetBoilerplate.Helpers
         }
 
         /// <summary>
+        /// Get server ip address
+        /// </summary>
+        public string ServerIpAddress
+        {
+            get
+            {
+                if (!IsRequestAvailable)
+                    return string.Empty;
+
+                var httpConnectionFeature = _httpContextAccessor.HttpContext.Features.Get<IHttpConnectionFeature>();
+                var localIpAddress = httpConnectionFeature?.LocalIpAddress;
+
+                return localIpAddress.ToString();
+            }
+        }
+
+
+        /// <summary>
+        /// Get user agent from HTTP context
+        /// </summary>
+        /// <returns>URL referrer</returns>
+        public string UserAgent
+        {
+            get
+            {
+                if (!IsRequestAvailable)
+                    return string.Empty;
+
+                //URL referrer is null in some case (for example, in IE 8)
+                return _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.UserAgent];
+            }
+        }
+
+        /// <summary>
         /// Gets this page URL
         /// </summary>
         /// <param name="includeQueryString">Value indicating whether to include query strings</param>
