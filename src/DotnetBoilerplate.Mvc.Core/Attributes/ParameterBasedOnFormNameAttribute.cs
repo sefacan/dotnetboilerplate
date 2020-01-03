@@ -8,7 +8,7 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
     public class ParameterBasedOnFormNameAttribute : TypeFilterAttribute
     {
         /// <summary>
-        /// Create instance of the filter attribute 
+        /// Create instance of the filter attribute
         /// </summary>
         /// <param name="formKeyName">The name of the form key whose existence is to be checked</param>
         /// <param name="actionParameterName">The name of the action parameter to which the result will be passed</param>
@@ -16,7 +16,7 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
         {
             Arguments = new object[] { formKeyName, actionParameterName };
         }
-        
+
         /// <summary>
         /// Represents a filter that check existence of passed form key and return result as an action parameter
         /// </summary>
@@ -24,13 +24,13 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
         {
             private readonly string _formKeyName;
             private readonly string _actionParameterName;
-            
+
             public ParameterBasedOnFormNameFilter(string formKeyName, string actionParameterName)
             {
                 _formKeyName = formKeyName;
                 _actionParameterName = actionParameterName;
             }
-            
+
             /// <summary>
             /// Called before the action executes, after model binding is complete
             /// </summary>

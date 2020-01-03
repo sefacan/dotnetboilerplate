@@ -10,7 +10,7 @@ namespace DotnetBoilerplate.Http
 {
     public static class HttpClientExtensions
     {
-        public static async Task<TContent> GetAsync<TContent>(this HttpClient client, string requestUri)
+        public static async Task<TContent> GetJsonAsync<TContent>(this HttpClient client, string requestUri)
         {
             var responseMessage = await client.GetAsync(requestUri);
             if (responseMessage.IsSuccessStatusCode)
@@ -23,7 +23,7 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
             {
-                Content = CreateContent(data)
+                Content = client.CreateJsonContent(data)
             };
 
             return await client.SendAsync(request);
@@ -33,7 +33,7 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Put, requestUri)
             {
-                Content = CreateContent(data)
+                Content = client.CreateJsonContent(data)
             };
 
             return await client.SendAsync(request);
@@ -43,7 +43,7 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, requestUri)
             {
-                Content = CreateContent(data)
+                Content = client.CreateJsonContent(data)
             };
 
             return await client.SendAsync(request);
@@ -59,34 +59,38 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
-                Content = CreateContent(data)
+                Content = client.CreateJsonContent(data)
             };
 
             return await client.SendAsync(request);
         }
 
-        public static void AddHeaderValue(this HttpClient client, string name, string value)
+        public static HttpClient AddHeaderValue(this HttpClient client, string name, string value)
         {
             client.DefaultRequestHeaders.Add(name, value);
+            return client;
         }
 
-        public static void AddJsonContentType(this HttpClient client, bool clearOtherTypes = false)
+        public static HttpClient AddJsonContentType(this HttpClient client, bool clearOtherTypes = false)
         {
             if (clearOtherTypes)
                 client.DefaultRequestHeaders.Accept.Clear();
 
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            return client;
         }
 
-        public static void AddBasicAuthentication(this HttpClient client, string userName, string password)
+        public static HttpClient AddBasicAuthentication(this HttpClient client, string userName, string password)
         {
             var basicAuth = Encoding.UTF8.GetBytes(string.Format("{0}:{1}", userName, password));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(basicAuth));
+            return client;
         }
 
-        public static void AddBearerAuthentication(this HttpClient client, string token)
+        public static HttpClient AddBearerAuthentication(this HttpClient client, string token)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            return client;
         }
 
         public static async Task<TContent> ReadJsonAsync<TContent>(this HttpResponseMessage httpResponseMessage)
@@ -103,10 +107,25 @@ namespace DotnetBoilerplate.Http
             return Deserialize<TContent>(stream);
         }
 
-        private static HttpContent CreateContent(object data)
+        public static JsonStringContent CreateJsonContent(this HttpClient client, object data)
         {
             var json = JsonConvert.SerializeObject(data);
-            return new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new JsonStringContent(json);
+            return content;
+        }
+
+        public static HttpContent CreateJsonContent(this HttpClient client, object data, string contentType)
+        {
+            var json = JsonConvert.SerializeObject(data);
+            var content = new JsonStringContent(json, Encoding.UTF8, contentType);
+            return content;
+        }
+
+        public static HttpContent CreateJsonContent(this HttpClient client, object data, string contentType, Encoding encoding)
+        {
+            var json = JsonConvert.SerializeObject(data);
+            var content = new JsonStringContent(json, encoding, contentType);
+            return content;
         }
 
         private static T Deserialize<T>(Stream s)

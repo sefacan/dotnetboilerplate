@@ -6,7 +6,7 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 
-namespace DotnetBoilerplate.Common
+namespace DotnetBoilerplate.Helpers
 {
     public class WebHelper : IWebHelper, IScopedLifetime
     {
@@ -82,7 +82,7 @@ namespace DotnetBoilerplate.Common
 
                 //"TryParse" doesn't support IPv4 with port number
                 if (IPAddress.TryParse(ipAddress.ToString(), out var ip))
-                    //IP address is valid 
+                    //IP address is valid
                     result = ip.ToString();
                 else if (ipAddress != null)
                     //remove port

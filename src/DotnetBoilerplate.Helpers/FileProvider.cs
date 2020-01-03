@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace DotnetBoilerplate.Common
+namespace DotnetBoilerplate.Helpers
 {
     public class FileProvider : ISelfScopedLifetime
     {

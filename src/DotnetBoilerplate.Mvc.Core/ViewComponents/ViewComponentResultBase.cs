@@ -71,11 +71,8 @@ namespace DotnetBoilerplate.Mvc.Core.ViewComponents
 
             if (result == null || !result.Success)
             {
-                // This will produce a string like:
-                //
-                //  Views/Shared/Components/Cart.cshtml
-                //
-
+                //This will produce a string like:
+                //Views/Shared/Components/Cart.cshtml
                 result = viewEngine.FindView(viewContext, string.Format(CultureInfo.InvariantCulture, "Components/{0}", viewName), false);
             }
 

@@ -7,7 +7,7 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
     public class ParameterBasedOnFormNameAndValueAttribute : TypeFilterAttribute
     {
         /// <summary>
-        /// Create instance of the filter attribute 
+        /// Create instance of the filter attribute
         /// </summary>
         /// <param name="formKeyName">The name of the form key</param>
         /// <param name="formValue">The value of the form parameter with specified key name</param>
@@ -46,7 +46,7 @@ namespace DotnetBoilerplate.Mvc.Core.Attributes
                 if (context.HttpContext.Request == null)
                     return;
 
-                //if form key with '_formKeyName' exists and value of this form parameter equals passed '_formValue', 
+                //if form key with '_formKeyName' exists and value of this form parameter equals passed '_formValue',
                 //then set specified '_actionParameterName' to true
                 var formValue = context.HttpContext.Request.Form[_formKeyName];
                 context.ActionArguments[_actionParameterName] = !string.IsNullOrEmpty(formValue) && formValue.Equals(_formValue);

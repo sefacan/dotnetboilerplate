@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Dependenc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Helpers", "src\DotnetBoilerplate.Helpers\DotnetBoilerplate.Helpers.csproj", "{7AD7F41B-4329-4BCE-9E04-3FBF320B263D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Common", "src\DotnetBoilerplate.Common\DotnetBoilerplate.Common.csproj", "{1115C279-5967-4F5F-9905-B068CEDB3702}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Mvc.Core", "src\DotnetBoilerplate.Mvc.Core\DotnetBoilerplate.Mvc.Core.csproj", "{96E22190-83F0-460B-8FF9-1CB142D1DAE1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetBoilerplate.Http", "src\DotnetBoilerplate.Http\DotnetBoilerplate.Http.csproj", "{99A26F92-B037-47C8-963A-308DF6717381}"
@@ -61,18 +59,6 @@ Global
 		{7AD7F41B-4329-4BCE-9E04-3FBF320B263D}.Release|x64.Build.0 = Release|Any CPU
 		{7AD7F41B-4329-4BCE-9E04-3FBF320B263D}.Release|x86.ActiveCfg = Release|Any CPU
 		{7AD7F41B-4329-4BCE-9E04-3FBF320B263D}.Release|x86.Build.0 = Release|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Debug|x64.Build.0 = Debug|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Debug|x86.Build.0 = Debug|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Release|x64.ActiveCfg = Release|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Release|x64.Build.0 = Release|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Release|x86.ActiveCfg = Release|Any CPU
-		{1115C279-5967-4F5F-9905-B068CEDB3702}.Release|x86.Build.0 = Release|Any CPU
 		{96E22190-83F0-460B-8FF9-1CB142D1DAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96E22190-83F0-460B-8FF9-1CB142D1DAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E22190-83F0-460B-8FF9-1CB142D1DAE1}.Debug|x64.ActiveCfg = Debug|Any CPU

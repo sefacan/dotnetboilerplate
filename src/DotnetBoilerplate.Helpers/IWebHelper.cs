@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace DotnetBoilerplate.Common
+namespace DotnetBoilerplate.Helpers
 {
     public interface IWebHelper
     {

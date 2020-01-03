@@ -47,7 +47,7 @@ namespace DotnetBoilerplate.Mvc.Core.ViewModels
         /// </summary>
         public void SetGridPageSize()
         {
-            SetGridPageSize(50, "50,100,250,500,1000");
+            SetGridPageSize(50, "50, 100, 250, 500, 1000");
         }
 
         /// <summary>
