@@ -17,9 +17,6 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DotnetBoilerplate.DependencyInjection\DotnetBoilerplate.DependencyInjection.csproj" />
   </ItemGroup>
 </Project>
