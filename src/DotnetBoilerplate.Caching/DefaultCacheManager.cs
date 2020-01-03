@@ -1,6 +1,6 @@
 using EasyCaching.Core;
+using Newtonsoft.Json;
 using System;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DotnetBoilerplate.Caching
@@ -31,7 +31,7 @@ namespace DotnetBoilerplate.Caching
             if (!serializedObject.HasValue)
                 return default;
 
-            return JsonSerializer.Deserialize<T>(serializedObject.Value);
+            return JsonConvert.DeserializeObject<T>(serializedObject.Value);
         }
 
         public async Task<T> GetAsync<T>(string key, Func<Task<T>> acquire)
@@ -43,7 +43,7 @@ namespace DotnetBoilerplate.Caching
         {
             var serializedObject = await _provider.GetAsync<string>(key.ToLowerInvariant());
             if (serializedObject.HasValue)
-                return JsonSerializer.Deserialize<T>(serializedObject.Value);
+                return JsonConvert.DeserializeObject<T>(serializedObject.Value);
 
             var result = await acquire();
             if (result != null && cacheMinutes > 0)
@@ -57,7 +57,7 @@ namespace DotnetBoilerplate.Caching
             if (cacheTime <= 0)
                 return;
 
-            var serializedObject = JsonSerializer.Serialize(data);
+            var serializedObject = JsonConvert.SerializeObject(data);
             key = key.ToLowerInvariant();
             await _provider.SetAsync(key, serializedObject, TimeSpan.FromMinutes(cacheTime));
         }
