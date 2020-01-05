@@ -8,7 +8,7 @@
     <Copyright>2019 dotnetanywhere.com</Copyright>
     <RepositoryUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.DependencyInjection</RepositoryUrl>
     <PackageProjectUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.DependencyInjection</PackageProjectUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyVersion>1.5.1.0</AssemblyVersion>
     <Authors>Sefa Can</Authors>
     <Company>dotnetanywhere.com</Company>
