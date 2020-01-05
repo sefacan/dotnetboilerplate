@@ -8,4 +8,4 @@ os: linux
 script:
 - dotnet build ./DotnetBoilerplate.sln -c Release
 - dotnet pack -c Release --no-build -o ./packages
-- dotnet nuget push ./packages/*.nupkg --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
+- dotnet nuget push ./packages/*.nupkg --skip-duplicate --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
