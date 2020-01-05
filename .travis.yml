@@ -8,4 +8,8 @@ os: linux
 script:
 - dotnet build ./DotnetBoilerplate.sln -c Release
 - dotnet pack -c Release --no-build -o ./packages
-- dotnet nuget push ./packages/*.nupkg --skip-duplicate --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
+- dotnet nuget push ./packages/DotnetBoilerplate.Caching.*.nupkg --skip-duplicate --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
+- dotnet nuget push ./packages/DotnetBoilerplate.DependencyInjection.*.nupkg --skip-duplicate --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
+- dotnet nuget push ./packages/DotnetBoilerplate.Helpers.*.nupkg --skip-duplicate --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
+- dotnet nuget push ./packages/DotnetBoilerplate.Http.*.nupkg --skip-duplicate --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
+- dotnet nuget push ./packages/DotnetBoilerplate.Mvc.Core.*.nupkg --skip-duplicate --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
