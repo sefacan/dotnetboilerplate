@@ -9,7 +9,3 @@ script:
 - dotnet build ./DotnetBoilerplate.sln -c Release
 - dotnet pack -c Release --no-build -o ./packages
 - dotnet nuget push ./packages/*.nupkg --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
-
-env:
- - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
- - DOTNET_CLI_TELEMETRY_OPTOUT=1
