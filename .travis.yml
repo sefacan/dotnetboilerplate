@@ -7,8 +7,8 @@ os: linux
 
 script:
 - dotnet build ./DotnetBoilerplate.sln -c Release
-- dotnet pack -c Release --no-build -o ./
-- dotnet nuget push ./*.nupkg --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
+- dotnet pack -c Release --no-build -o ./packages
+- dotnet nuget push ./packages/*.nupkg --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
 
 env:
  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
