@@ -3,14 +3,13 @@ mono: none
 dotnet: 3.1.100
 
 dist: xenial
-os:
-  - linux
+os: linux
 
 script:
 - dotnet build ./DotnetBoilerplate.sln -c Release
 - dotnet pack -c Release --no-build -o ./
-- dotnet nuget push ./*.nupkg -k $NUGETKEY -s https://api.nuget.org/v3/index.json
+- dotnet nuget push ./*.nupkg --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json
 
 env:
  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-  - DOTNET_CLI_TELEMETRY_OPTOUT=1
+ - DOTNET_CLI_TELEMETRY_OPTOUT=1
