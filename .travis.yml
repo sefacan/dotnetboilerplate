@@ -5,13 +5,12 @@ dotnet: 3.1.100
 dist: xenial
 os:
   - linux
-  - osx
 
 script:
 - dotnet build ./DotnetBoilerplate.sln -c Release
 - dotnet pack -c Release --no-build -o ./
 - dotnet nuget push ./*.nupkg -k $NUGETKEY -s https://api.nuget.org/v3/index.json
 
-global:
-    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-    - DOTNET_CLI_TELEMETRY_OPTOUT=1
+env:
+ - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+  - DOTNET_CLI_TELEMETRY_OPTOUT=1

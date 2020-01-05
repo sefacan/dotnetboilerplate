@@ -36,6 +36,8 @@ namespace DotnetBoilerplate.Helpers
         public static string GetDisplayValue(T value)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
+            if (fieldInfo == null)
+                return string.Empty;
 
             if (!(fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false) is DisplayAttribute[] descriptionAttributes))
                 return string.Empty;

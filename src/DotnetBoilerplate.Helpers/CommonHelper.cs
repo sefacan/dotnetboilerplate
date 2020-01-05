@@ -1,6 +1,6 @@
 using System;
-using System.ComponentModel;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 
@@ -69,91 +69,64 @@ namespace DotnetBoilerplate.Helpers
 
             return new Random(BitConverter.ToInt32(randomNumberBuffer, 0)).Next(min, max);
         }
-
-        /// <summary>
-        /// Converts a value to a destination type.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <typeparam name="T">The type to convert the value to.</typeparam>
-        /// <returns>The converted value.</returns>
-        public static T To<T>(object value)
+        
+        public static string EnsureMaximumLength(string str, int maxLength, string postfix = null)
         {
-            return (T)To(value, typeof(T));
-        }
+            if (string.IsNullOrEmpty(str))
+                return str;
 
-        /// <summary>
-        /// Converts a value to a destination type.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="destinationType">The type to convert the value to.</param>
-        /// <returns>The converted value.</returns>
-        public static object To(object value, Type destinationType)
-        {
-            return To(value, destinationType, CultureInfo.InvariantCulture);
-        }
+            if (str.Length <= maxLength)
+                return str;
 
-        /// <summary>
-        /// Converts a value to a destination type.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="destinationType">The type to convert the value to.</param>
-        /// <param name="culture">Culture</param>
-        /// <returns>The converted value.</returns>
-        public static object To(object value, Type destinationType, CultureInfo culture)
-        {
-            if (value == null)
-                return null;
+            var pLen = postfix?.Length ?? 0;
 
-            var sourceType = value.GetType();
-
-            var destinationConverter = TypeDescriptor.GetConverter(destinationType);
-            if (destinationConverter.CanConvertFrom(value.GetType()))
-                return destinationConverter.ConvertFrom(null, culture, value);
-
-            var sourceConverter = TypeDescriptor.GetConverter(sourceType);
-            if (sourceConverter.CanConvertTo(destinationType))
-                return sourceConverter.ConvertTo(null, culture, value, destinationType);
-
-            if (destinationType.IsEnum && value is int)
-                return Enum.ToObject(destinationType, (int)value);
-
-            if (!destinationType.IsInstanceOfType(value))
-                return Convert.ChangeType(value, destinationType, culture);
-
-            return value;
-        }
-
-        /// <summary>
-        /// Get private fields property value
-        /// </summary>
-        /// <param name="target">Target object</param>
-        /// <param name="fieldName">Field name</param>
-        /// <returns>Value</returns>
-        public static object GetPrivateFieldValue(object target, string fieldName)
-        {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-
-            if (string.IsNullOrWhiteSpace(fieldName))
-                throw new ArgumentException(nameof(fieldName));
-
-            var t = target.GetType();
-            FieldInfo fi = null;
-
-            while (t != null)
+            var result = str.Substring(0, maxLength - pLen);
+            if (!string.IsNullOrEmpty(postfix))
             {
-                fi = t.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
-
-                if (fi != null)
-                    break;
-
-                t = t.BaseType;
+                result += postfix;
             }
 
-            if (fi == null)
-                throw new ArgumentNullException(nameof(fi));
+            return result;
+        }
 
-            return fi.GetValue(target);
+        public static bool SequenceEqual<T>(IEnumerable<T> a1, IEnumerable<T> a2)
+        {
+            if (ReferenceEquals(a1, a2))
+                return true;
+
+            if (a1 == null || a2 == null)
+                return false;
+
+            if (a1.Count() != a2.Count())
+                return false;
+
+            var orderedA1 = a1.OrderBy(a => a);
+            var orderedA2 = a2.OrderBy(a => a);
+
+            var comparer = EqualityComparer<T>.Default;
+            return !orderedA1.Where((t, i) => !comparer.Equals(t, orderedA2.ElementAtOrDefault(i))).Any();
+        }
+
+        public static bool PropertyValuesAreEqual<T>(this T from, T to, params string[] ignore) where T : class
+        {
+            if (from == null || to == null)
+                return false;
+
+            var type = typeof(T);
+            var ignoredProps = new List<string>(ignore);
+            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (ignoredProps.Contains(property.Name))
+                    continue;
+
+                var fromValue = type.GetProperty(property.Name).GetValue(from, null);
+                var toValue = type.GetProperty(property.Name).GetValue(to, null);
+
+                if (fromValue != toValue && (fromValue == null || !fromValue.Equals(toValue)))
+                    return false;
+            }
+
+            return true;
         }
     }
 }
