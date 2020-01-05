@@ -1,0 +1,12 @@
+language: csharp
+mono: none
+dotnet: 3.1.100
+dist: xenial
+sudo: false
+
+install:
+- dotnet restore ./DotnetBoilerplate.sln
+script:
+- dotnet build ./DotnetBoilerplate.sln
+- dotnet pack -c Release --no-build -o ./
+- dotnet nuget push ./*.nupkg -k $NUGETKEY -s https://api.nuget.org/v3/index.json
