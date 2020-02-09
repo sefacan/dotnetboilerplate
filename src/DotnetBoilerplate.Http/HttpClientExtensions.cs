@@ -23,7 +23,7 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
             {
-                Content = client.CreateJsonContent(data)
+                Content = new JsonStringContent(data)
             };
 
             return await client.SendAsync(request);
@@ -33,7 +33,7 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Put, requestUri)
             {
-                Content = client.CreateJsonContent(data)
+                Content = new JsonStringContent(data)
             };
 
             return await client.SendAsync(request);
@@ -43,7 +43,7 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, requestUri)
             {
-                Content = client.CreateJsonContent(data)
+                Content = new JsonStringContent(data)
             };
 
             return await client.SendAsync(request);
@@ -59,7 +59,7 @@ namespace DotnetBoilerplate.Http
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
-                Content = client.CreateJsonContent(data)
+                Content = new JsonStringContent(data)
             };
 
             return await client.SendAsync(request);
@@ -105,27 +105,6 @@ namespace DotnetBoilerplate.Http
 
             var stream = await httpResponseMessage.Content.ReadAsStreamAsync();
             return Deserialize<TContent>(stream);
-        }
-
-        public static JsonStringContent CreateJsonContent(this HttpClient client, object data)
-        {
-            var json = JsonConvert.SerializeObject(data);
-            var content = new JsonStringContent(json);
-            return content;
-        }
-
-        public static HttpContent CreateJsonContent(this HttpClient client, object data, string contentType)
-        {
-            var json = JsonConvert.SerializeObject(data);
-            var content = new JsonStringContent(json, Encoding.UTF8, contentType);
-            return content;
-        }
-
-        public static HttpContent CreateJsonContent(this HttpClient client, object data, string contentType, Encoding encoding)
-        {
-            var json = JsonConvert.SerializeObject(data);
-            var content = new JsonStringContent(json, encoding, contentType);
-            return content;
         }
 
         private static T Deserialize<T>(Stream s)
