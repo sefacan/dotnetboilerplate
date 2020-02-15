@@ -6,5 +6,5 @@ dist: xenial
 os: linux
 
 script:
-- dotnet pack ./DotnetBoilerplate.sln --configuration Release --output ./nupkgs -p:ContinuousIntegrationBuild=true
+- dotnet pack ./DotnetBoilerplate.sln --configuration Release --output ./nupkgs -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 - dotnet nuget push ./nupkgs/*.nupkg --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json --skip-duplicate
