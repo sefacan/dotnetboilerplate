@@ -7,4 +7,4 @@ os: linux
 
 script:
 - dotnet pack ./DotnetBoilerplate.sln --configuration Release --output ./nupkgs -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
-- dotnet nuget push ./nupkgs/*.nupkg --api-key $NUGETKEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+- dotnet nuget push ./nupkgs/*.nupkg -k $NUGETKEY -s "https://api.nuget.org/v3/index.json" --skip-duplicate
