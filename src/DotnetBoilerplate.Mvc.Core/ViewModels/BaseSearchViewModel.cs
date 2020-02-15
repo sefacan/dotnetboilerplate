@@ -30,7 +30,7 @@ namespace DotnetBoilerplate.Mvc.Core.ViewModels
         /// <summary>
         /// Gets a page number
         /// </summary>
-        public int Page { get; set; }
+        public int PageIndex { get; set; }
 
         /// <summary>
         /// Gets a page size
@@ -57,7 +57,7 @@ namespace DotnetBoilerplate.Mvc.Core.ViewModels
         /// <param name="availablePageSizes">Available page sizes; pass null to use default value</param>
         public void SetGridPageSize(int pageSize, string availablePageSizes = null)
         {
-            Page = 1;
+            PageIndex = 1;
             PageSize = pageSize;
             AvailablePageSizes = availablePageSizes;
         }

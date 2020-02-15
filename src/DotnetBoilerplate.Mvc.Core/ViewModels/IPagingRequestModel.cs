@@ -5,7 +5,7 @@ namespace DotnetBoilerplate.Mvc.Core.ViewModels
         /// <summary>
         /// Gets a page number
         /// </summary>
-        int Page { get; }
+        int PageIndex { get; }
 
         /// <summary>
         /// Gets a page size

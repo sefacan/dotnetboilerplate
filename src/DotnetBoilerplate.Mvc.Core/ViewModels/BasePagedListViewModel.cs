@@ -15,11 +15,6 @@ namespace DotnetBoilerplate.Mvc.Core.ViewModels
         public int Total { get; set; }
 
         /// <summary>
-        /// Gets or sets an extra data
-        /// </summary>
-        public object ExtraData { get; set; }
-
-        /// <summary>
         /// Gets or sets an errors
         /// </summary>
         public object Errors { get; set; }
