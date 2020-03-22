@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Description>Cache Helper Package For .Net Core Apps</Description>
+    <Description>CorrelationId Middleware Helper Package For .Net Core Apps</Description>
     <Version>1.6.0</Version>
-    <AssemblyName>DotnetBoilerplate.Caching</AssemblyName>
-    <RootNamespace>DotnetBoilerplate.Caching</RootNamespace>
+    <AssemblyName>DotnetBoilerplate.CorrelationId</AssemblyName>
+    <RootNamespace>DotnetBoilerplate.CorrelationId</RootNamespace>
     <Copyright>2019 dotnetanywhere.com</Copyright>
     <RepositoryUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Caching</RepositoryUrl>
     <PackageProjectUrl>https://github.com/sefacan/dotnetboilerplate/tree/master/src/DotnetBoilerplate.Caching</PackageProjectUrl>
@@ -13,9 +13,11 @@
     <Authors>Sefa Can</Authors>
     <Company>dotnetanywhere.com</Company>
   </PropertyGroup>
+  
   <ItemGroup>
-    <PackageReference Include="EasyCaching.InMemory" Version="0.8.6" />
-    <PackageReference Include="EasyCaching.Redis" Version="0.8.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.2" />
   </ItemGroup>
 </Project>
