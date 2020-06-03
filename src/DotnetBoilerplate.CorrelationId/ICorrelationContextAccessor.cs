@@ -1,4 +1,4 @@
-﻿namespace DotnetBoilerplate.CorrelationId.Abstractions
+namespace DotnetBoilerplate.CorrelationId
 {
     /// <summary>
     /// Provides access to the <see cref="CorrelationContext"/> for the current request.

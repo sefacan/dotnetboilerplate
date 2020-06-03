@@ -1,8 +1,5 @@
-﻿using DotnetBoilerplate.CorrelationId.Abstractions;
-
 namespace DotnetBoilerplate.CorrelationId
 {
-    /// <inheritdoc />
     public class CorrelationContextFactory : ICorrelationContextFactory
     {
         private readonly ICorrelationContextAccessor _correlationContextAccessor;
@@ -10,7 +7,7 @@ namespace DotnetBoilerplate.CorrelationId
         /// <summary>
         /// Initialises a new instance of <see cref="CorrelationContextFactory" />.
         /// </summary>
-        public CorrelationContextFactory() 
+        public CorrelationContextFactory()
             : this(null)
         { }
 

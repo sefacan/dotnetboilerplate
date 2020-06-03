@@ -1,4 +1,3 @@
-using DotnetBoilerplate.CorrelationId.Abstractions;
 using System;
 
 namespace DotnetBoilerplate.CorrelationId

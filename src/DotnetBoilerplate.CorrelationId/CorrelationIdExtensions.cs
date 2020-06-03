@@ -1,4 +1,3 @@
-﻿using DotnetBoilerplate.CorrelationId.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using System;
 

@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotnetBoilerplate.CorrelationId.Abstractions;
 
 namespace DotnetBoilerplate.CorrelationId
 {
@@ -18,8 +15,8 @@ namespace DotnetBoilerplate.CorrelationId
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
-        private readonly ICorrelationIdProvider _correlationIdProvider;
-        private readonly CorrelationIdOptions _options;
+
+        private const string CorrelationIdHeaderName = "X-Correlation-ID";
 
         /// <summary>
         /// Creates a new instance of the CorrelationIdMiddleware.
@@ -28,12 +25,10 @@ namespace DotnetBoilerplate.CorrelationId
         /// <param name="logger">The <see cref="ILogger"/> instance to log to.</param>
         /// <param name="options">The configuration options.</param>
         /// <param name="correlationIdProvider"></param>
-        public CorrelationIdMiddleware(RequestDelegate next, ILogger<CorrelationIdMiddleware> logger, IOptions<CorrelationIdOptions> options, ICorrelationIdProvider correlationIdProvider = null)
+        public CorrelationIdMiddleware(RequestDelegate next, ILogger<CorrelationIdMiddleware> logger)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _correlationIdProvider = correlationIdProvider;
-            _options = options.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -46,26 +41,8 @@ namespace DotnetBoilerplate.CorrelationId
         {
             Log.CorrelationIdProcessingBegin(_logger);
 
-            if (_correlationIdProvider is null)
-            {
-                Log.MissingCorrelationIdProvider(_logger);
-
-                throw new InvalidOperationException("No 'ICorrelationIdProvider' has been registered. You must either add the correlation ID services" +
-                                                    " using the 'AddDefaultCorrelationId' extension method or you must register a suitable provider using the" +
-                                                    " 'ICorrelationIdBuilder'.");
-            }
-
-            var hasCorrelationIdHeader = context.Request.Headers.TryGetValue(_options.RequestHeader, out var cid) &&
+            var hasCorrelationIdHeader = context.Request.Headers.TryGetValue(CorrelationIdHeaderName, out var cid) &&
                                            !StringValues.IsNullOrEmpty(cid);
-
-            if (!hasCorrelationIdHeader && _options.EnforceHeader)
-            {
-                Log.EnforcedCorrelationIdHeaderMissing(_logger);
-
-                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                await context.Response.WriteAsync($"The '{_options.RequestHeader}' request header is required, but was not found.");
-                return;
-            }
 
             var correlationId = hasCorrelationIdHeader ? cid.FirstOrDefault() : null;
 
@@ -78,12 +55,12 @@ namespace DotnetBoilerplate.CorrelationId
                 Log.MissingCorrelationIdHeader(_logger);
             }
 
-            if (_options.IgnoreRequestHeader || RequiresGenerationOfCorrelationId(hasCorrelationIdHeader, cid))
+            if (RequiresGenerationOfCorrelationId(hasCorrelationIdHeader, cid))
             {
-                correlationId = GenerateCorrelationId(context);
+                correlationId = GenerateCorrelationId(context.TraceIdentifier);
             }
 
-            if (!string.IsNullOrEmpty(correlationId) && _options.UpdateTraceIdentifier)
+            if (!string.IsNullOrEmpty(correlationId))
             {
                 Log.UpdatingTraceIdentifier(_logger);
 
@@ -91,62 +68,33 @@ namespace DotnetBoilerplate.CorrelationId
             }
 
             Log.CreatingCorrelationContext(_logger);
-            correlationContextFactory.Create(correlationId, _options.RequestHeader);
+            correlationContextFactory.Create(correlationId, CorrelationIdHeaderName);
 
-            if (_options.IncludeInResponse && !string.IsNullOrEmpty(correlationId))
+            if (!string.IsNullOrEmpty(correlationId))
             {
                 // apply the correlation ID to the response header for client side tracking
                 context.Response.OnStarting(() =>
                 {
-                    if (!context.Response.Headers.ContainsKey(_options.ResponseHeader))
+                    if (!context.Response.Headers.ContainsKey(CorrelationIdHeaderName))
                     {
-                        Log.WritingCorrelationIdResponseHeader(_logger, _options.ResponseHeader, correlationId);
-                        context.Response.Headers.Add(_options.ResponseHeader, correlationId);
+                        Log.WritingCorrelationIdResponseHeader(_logger, CorrelationIdHeaderName, correlationId);
+                        context.Response.Headers.Add(CorrelationIdHeaderName, correlationId);
                     }
 
                     return Task.CompletedTask;
                 });
             }
-            
-            if (_options.AddToLoggingScope && !string.IsNullOrEmpty(_options.LoggingScopeKey) && !string.IsNullOrEmpty(correlationId))
-            {
-                using (_logger.BeginScope(new Dictionary<string, object>
-                {
-                    [_options.LoggingScopeKey] = correlationId
-                }))
-                {
-                    Log.CorrelationIdProcessingEnd(_logger, correlationId);
-                    await _next(context);
-                }
-            }
-            else
-            {
-                Log.CorrelationIdProcessingEnd(_logger, correlationId);
-                await _next(context);
-            }
+
+            Log.CorrelationIdProcessingEnd(_logger, correlationId);
+            await _next(context);
 
             Log.DisposingCorrelationContext(_logger);
             correlationContextFactory.Dispose();
         }
 
-        private static bool RequiresGenerationOfCorrelationId(bool idInHeader, StringValues idFromHeader) =>
-            !idInHeader || StringValues.IsNullOrEmpty(idFromHeader);
+        private static bool RequiresGenerationOfCorrelationId(bool idInHeader, StringValues idFromHeader) => !idInHeader || StringValues.IsNullOrEmpty(idFromHeader);
 
-        private string GenerateCorrelationId(HttpContext ctx)
-        {
-            string correlationId;
-
-            if (_options.CorrelationIdGenerator is object)
-            {
-                correlationId = _options.CorrelationIdGenerator();
-                Log.GeneratedHeaderUsingGeneratorFunction(_logger, correlationId);
-                return correlationId;
-            }
-
-            correlationId = _correlationIdProvider.GenerateCorrelationId(ctx);
-            Log.GeneratedHeaderUsingProvider(_logger, correlationId, _correlationIdProvider.GetType());
-            return correlationId;
-        }
+        private StringValues GenerateCorrelationId(string traceIdentifier) => string.IsNullOrEmpty(traceIdentifier) ? Guid.NewGuid().ToString() : traceIdentifier;
 
         internal static class EventIds
         {
@@ -231,12 +179,14 @@ namespace DotnetBoilerplate.CorrelationId
 
             public static void CorrelationIdProcessingBegin(ILogger logger)
             {
-                if(logger.IsEnabled(LogLevel.Debug)) _correlationIdProcessingBegin(logger, null);
+                if (logger.IsEnabled(LogLevel.Debug))
+                    _correlationIdProcessingBegin(logger, null);
             }
 
             public static void CorrelationIdProcessingEnd(ILogger logger, string correlationId)
             {
-                if (logger.IsEnabled(LogLevel.Debug)) _correlationIdProcessingEnd(logger, correlationId, null);
+                if (logger.IsEnabled(LogLevel.Debug))
+                    _correlationIdProcessingEnd(logger, correlationId, null);
             }
 
             public static void MissingCorrelationIdProvider(ILogger logger) => _missingCorrelationIdProvider(logger, null);

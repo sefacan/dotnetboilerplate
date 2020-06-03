@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using DotnetBoilerplate.CorrelationId.Abstractions;
+using System.Threading;
 
 namespace DotnetBoilerplate.CorrelationId
 {
