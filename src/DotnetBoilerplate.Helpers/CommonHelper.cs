@@ -69,7 +69,7 @@ namespace DotnetBoilerplate.Helpers
 
             return new Random(BitConverter.ToInt32(randomNumberBuffer, 0)).Next(min, max);
         }
-        
+
         public static string EnsureMaximumLength(string str, int maxLength, string postfix = null)
         {
             if (string.IsNullOrEmpty(str))
@@ -107,8 +107,10 @@ namespace DotnetBoilerplate.Helpers
             return !orderedA1.Where((t, i) => !comparer.Equals(t, orderedA2.ElementAtOrDefault(i))).Any();
         }
 
-        public static bool PropertyValuesAreEqual<T>(this T from, T to, params string[] ignore) where T : class
+        public static bool PropertyValuesAreEqual<T>(this T from, T to, out string propertyName, params string[] ignore) where T : class
         {
+            propertyName = string.Empty;
+
             if (from == null || to == null)
                 return false;
 
@@ -123,7 +125,10 @@ namespace DotnetBoilerplate.Helpers
                 var toValue = type.GetProperty(property.Name).GetValue(to, null);
 
                 if (fromValue != toValue && (fromValue == null || !fromValue.Equals(toValue)))
+                {
+                    propertyName = property.Name;
                     return false;
+                }
             }
 
             return true;

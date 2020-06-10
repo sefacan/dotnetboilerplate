@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Description>Common Helper Package For .Net Core Apps</Description>
-    <Version>1.6.1</Version>
-    <AssemblyVersion>1.6.1.0</AssemblyVersion>
+    <Version>1.6.2</Version>
+    <AssemblyVersion>1.6.2.0</AssemblyVersion>
     <AssemblyName>DotnetBoilerplate.Helpers</AssemblyName>
     <RootNamespace>DotnetBoilerplate.Helpers</RootNamespace>
     <Copyright>2019 dotnetanywhere.com</Copyright>
